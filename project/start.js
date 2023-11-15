@@ -2,9 +2,7 @@ var express = require('express');
 const hubspot = require('@hubspot/api-client');
 require('dotenv').config();
 
-var mainjs = require('js/main.js');
-console.log(typeof mainjs.foo); // => 'function'
-console.log(typeof mainjs.bar); // => 'function'
+var main = require('./js/main.js');
 
 // Set Private App ACCESS_TOKEN as environment variables before running.
 if (!process.env.ACCESS_TOKEN) {
@@ -27,14 +25,26 @@ app.use(express.static(__dirname));
 app.set('views', __dirname + '/html');
 app.set('view engine', 'ejs');
 
-app.get('/', function(request, response) {
-  var tagline = "Testing out a passed variable";
-
+app.get('/', async function(request, response) {
+  const status = ''
+  const contact = await main.getContactById(response, status, hubspotClient);
+  var firstname = "Jon";
+  var lastname = "Doe";
+  if (status === 'n') {
+    var tagline = "Hubspot query failed";
+  }
+  else {
+    var tagline = "Hubspot query succeeded";
+    firstname = contact.properties.firstname;
+    lastname = contact.properties.lastname;
+  }
   response.render('pages/index', {
     tagline: tagline,
-    accesstoken: ACCESS_TOKEN
+    firstname: firstname,
+    lastname: lastname
   });
 });
+
 app.get('/about', function(request, response) {
   response.render('pages/about');
 });

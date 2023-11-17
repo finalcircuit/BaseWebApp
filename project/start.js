@@ -28,23 +28,14 @@ app.set('views', __dirname + '/html');
 app.set('view engine', 'ejs');
 
 app.get('/', async function(request, response) {
-  const status = ''
-  const queryemail = 'aharris@bpf.co.uk';
-  const contact = await main.getContactByEmail(response, status, hubspotClient, queryemail);
-  var firstname = "";
-  var lastname = "";
-  if (status === 'n') {
-    var tagline = "Hubspot query failed";
-  }
-  else {
-    var tagline = "Hubspot query succeeded";
-    firstname = contact.properties.firstname;
-    lastname = contact.properties.lastname;
-  }
+  //var firstname = "";
+  //var lastname = "";
+  var tagline = "Enter an email";
   response.render('pages/index', {
     tagline: tagline,
-    firstname: firstname,
-    lastname: lastname
+    firstname: '',
+    lastname: '',
+    business_interests: ''
   });
 });
 
@@ -53,24 +44,27 @@ app.get('/about', function(request, response) {
 });
 
 app.post('/getbyemail', async function(request, response) {
-  console.log(request.body.searchemail)
-  const status = ''
   const queryemail = request.body.searchemail;
-  const contact = await main.getContactByEmail(response, status, hubspotClient, queryemail);
+  // TODO sanity check email - can't be blank
+  const contact = await main.getContactByEmail(response, hubspotClient, queryemail);
+  console.log(contact);
   var firstname = "";
   var lastname = "";
-  if (status === 'n') {
+  var business_interests = "";
+  if (contact === 'error') {
     var tagline = "Hubspot query failed";
   }
   else {
     var tagline = "Hubspot query succeeded";
     firstname = contact.properties.firstname;
     lastname = contact.properties.lastname;
-  }
+    business_interests = contact.properties.business_interests.split(';');
+  } 
   response.render('pages/index', {
     tagline: tagline,
     firstname: firstname,
-    lastname: lastname
+    lastname: lastname,
+    business_interests: business_interests
   });
 });
 

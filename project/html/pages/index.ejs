@@ -13,6 +13,15 @@
     <div><%= tagline %></div>
     <div><%= firstname %></div>
     <div><%= lastname %></div>
+    <!-- How do we know all the valid values for a property, not just the ones that are checked?-->
+    <!-- hack would be to have a known record with all values checked-->
+    <table>
+      <% for(var i=0; i < business_interests.length; i++) { %>
+         <tr>
+           <td><%= business_interests[i] %></td>
+         </tr>
+      <% } %>
+    </table>
   </div>
 
 <form action="getbyemail" method="post">

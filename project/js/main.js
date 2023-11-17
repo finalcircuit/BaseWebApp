@@ -25,11 +25,9 @@ async function getContactById (res, status, hubspotClient) {
 }
 
 // useful: https://community.hubspot.com/t5/APIs-Integrations/Update-contact-with-email-as-ID-through-the-Hubspot-API/m-p/623680
-async function getContactByEmail(res, status, hubspotClient, email) {
-  console.log('');
-  console.log('=== Retrieving a contact from HubSpot via email using API Client ===');
+async function getContactByEmail(res, hubspotClient, email) {
   const passedemail = email;
-  const properties = ["firstname", "lastname", "company"];
+  const properties = ["firstname", "lastname", "company", "business_interests"];
   const propertiesWithHistory = undefined;
   const associations = undefined;
   const archived = false;
@@ -46,11 +44,11 @@ async function getContactByEmail(res, status, hubspotClient, email) {
       idProperty
       );
     console.log(result);
-    status = 'y';
     return result;
   } catch (e) {
     console.error('  > Unable to retrieve contact');
     console.log(e);
-    status = 'n';
+    return "error";
   }
+
 };

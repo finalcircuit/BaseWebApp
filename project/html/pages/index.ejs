@@ -9,18 +9,17 @@
   <div class="page-header">
     <%- include ("../helpers/navbar"); %>
   
-    <h1>Hallo World</h1>
+    <h1>Welcome</h1>
     <div><%= tagline %></div>
     <div><%= firstname %></div>
     <div><%= lastname %></div>
   </div>
 
-  <p>Click on the button for a surprise.</p>
+<form action="getbyemail" method="post">
+        Email: <input type="text" name="searchemail" /><br><br>
+        <input type="submit" value="Search"/><br><br><hr>
+</form>
 
-  <button onClick="showPicture()" class="btn btn-dark">Click me</button>
-
-  <div id="image"></div>
-  
 </body>
 
 </html>
